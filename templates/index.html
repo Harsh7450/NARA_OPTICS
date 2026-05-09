@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block body_class %}home-page{% endblock %}
+
+{% block title %}Nara Optics - Luxury Eyewear{% endblock %}
+{% block nav_home %}class="active"{% endblock %}
+
+{% block content %}
+    <!-- Hero Video Section -->
+    <!-- Hero Video Only -->
+    <section class="hero-video">
+
+        <video autoplay muted loop playsinline class="hero-bg-video">
+            <source src="{{ url_for('static', filename='videos/hero.mp4') }}" type="video/mp4">
+        </video>
+
+        <div class="hero-overlay"></div>
+
+    </section>
+
+    <!-- Top Categories Section -->
+    <section class="top-categories">
+        <div class="container">
+
+            <h2 class="top-title" data-aos="fade-up">
+                Explore Categories
+            </h2>
+
+            <div class="top-grid">
+
+                <a href="/products?category=eyeglasses"
+                class="top-card"
+                data-aos="fade-up"
+                data-aos-delay="0">
+                    <img src="{{ url_for('static', filename='images/eyeglass.jpg') }}" alt="Eyeglasses">
+                    <h3>Eyeglasses</h3>
+                </a>
+
+                <a href="/products?category=sunglasses"
+                class="top-card"
+                data-aos="fade-up"
+                data-aos-delay="100">
+                    <img src="{{ url_for('static', filename='images/sunglass.jfif') }}" alt="Sunglasses">
+                    <h3>Sunglasses</h3>
+                </a>
+
+                <a href="/products?category=special"
+                class="top-card"
+                data-aos="fade-up"
+                data-aos-delay="200">
+                    <img src="{{ url_for('static', filename='images/powerglass.png') }}" alt="Special Power">
+                    <h3>Special Power</h3>
+                </a>
+
+                <a href="/products?category=contact"
+                class="top-card"
+                data-aos="fade-up"
+                data-aos-delay="300">
+                    <img src="{{ url_for('static', filename='images/contactlens.jpg') }}" alt="Contact Lenses">
+                    <h3>Contact Lenses</h3>
+                </a>
+
+                <a href="/products?category=kids"
+                class="top-card"
+                data-aos="fade-up"
+                data-aos-delay="400">
+                    <img src="{{ url_for('static', filename='images/screenglass.jpg') }}" alt="Kids Glasses">
+                    <h3>Kids Glasses</h3>
+                </a>
+
+                <a href="/products?category=sale"
+                class="top-card sale-card"
+                data-aos="fade-up"
+                data-aos-delay="500">
+                    <img src="https://images.unsplash.com/photo-1591076482161-42ce6da69f67?w=400" alt="Sale">
+                    <div class="sale-badge">60% OFF</div>
+                    <h3>Sale</h3>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-item" data-aos="fade-up">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <h3>Premium Quality</h3>
+                    <p>Handcrafted with the finest materials</p>
+                </div>
+                <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Fast Delivery</h3>
+                    <p>Express shipping worldwide</p>
+                </div>
+                <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <h3>Expert Consultation</h3>
+                    <p>Professional styling advice</p>
+                </div>
+                <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                    </div>
+                    <h3>Warranty</h3>
+                    <p>2-year comprehensive coverage</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text" data-aos="fade-right">
+                    <h2>The Art of Vision</h2>
+                    <p>At Nara Optics, we believe that eyewear is more than just a necessity—it's an expression of personal style and sophistication. Since our founding, we've curated an exclusive collection of the world's finest eyewear brands.</p>
+                    <p>Each piece in our collection is carefully selected for its exceptional craftsmanship, innovative design, and timeless appeal. We're committed to helping you find the perfect frames that complement your unique style and enhance your vision.</p>
+                    <a href="/products" class="btn btn-secondary">Discover Our Story</a>
+                </div>
+                <div class="about-image" data-aos="fade-left">
+                    <video autoplay muted loop playsinline class="about-video">
+                        <source src="{{ url_for('static', filename='videos/about.mp4') }}" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Visit Our Store</h2>
+            <div class="contact-grid">
+                <div class="contact-info" data-aos="fade-right">
+                    <div class="contact-item">
+                        <h3>Location</h3>
+                        <p>123 Luxury Avenue<br>Fashion District, New York, NY 10001</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Hours</h3>
+                        <p>Monday - Saturday: 10am - 8pm<br>Sunday: 12pm - 6pm</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Contact</h3>
+                        <p>Phone: +1 (555) 123-4567<br>Email: info@naraoptics.com</p>
+                    </div>
+                </div>
+                <div class="contact-form" data-aos="fade-left">
+                    <h3>Get in Touch</h3>
+                    <form id="contactForm">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

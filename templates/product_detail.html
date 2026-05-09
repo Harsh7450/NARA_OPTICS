@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product[1] }} - Nara Optics{% endblock %}
+
+{% block content %}
+    <!-- Product Detail -->
+    <section class="product-detail">
+        <div class="container">
+            <div class="product-detail-grid">
+                <div class="product-detail-image">
+                    <img src="{{ product[5] }}" alt="{{ product[1] }}">
+                </div>
+                <div class="product-detail-info">
+                    <div class="breadcrumb">
+                        <a href="/">Home</a> / <a href="/products">Products</a> / {{ product[1] }}
+                    </div>
+                    <h1>{{ product[1] }}</h1>
+                    <p class="product-detail-price">${{ "%.2f"|format(product[3]) }}</p>
+                    <p class="product-detail-description">{{ product[2] }}</p>
+                    
+                    <div class="product-meta">
+                        <p><strong>Category:</strong> {{ product[4].title() }}</p>
+                        <p><strong>Availability:</strong> 
+                            {% if product[6] > 0 %}
+                                <span class="in-stock">In Stock ({{ product[6] }} available)</span>
+                            {% else %}
+                                <span class="out-of-stock">Out of Stock</span>
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="qty-btn" onclick="decrementQty()">-</button>
+                            <input type="number" id="quantity" value="1" min="1" max="{{ product[6] }}">
+                            <button class="qty-btn" onclick="incrementQty()">+</button>
+                        </div>
+                        <button class="btn btn-primary btn-large" onclick="addToCartWithQty({{ product[0] }})">
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    <div class="product-features">
+                        <h3>Features</h3>
+                        <ul>
+                            <li>Premium quality materials</li>
+                            <li>UV protection</li>
+                            <li>Scratch-resistant lenses</li>
+                            <li>Comfortable fit</li>
+                            <li>2-year warranty</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function incrementQty() {
+        const input = document.getElementById('quantity');
+        const max = parseInt(input.max);
+        if (parseInt(input.value) < max) {
+            input.value = parseInt(input.value) + 1;
+        }
+    }
+
+    function decrementQty() {
+        const input = document.getElementById('quantity');
+        if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+        }
+    }
+
+    function addToCartWithQty(productId) {
+        const quantity = parseInt(document.getElementById('quantity').value);
+        addToCart(productId, quantity);
+    }
+</script>
+{% endblock %}

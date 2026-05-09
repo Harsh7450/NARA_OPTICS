@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart - Nara Optics{% endblock %}
+
+{% block content %}
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <div class="container">
+            <h1>Shopping Cart</h1>
+            <div class="cart-content">
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be loaded here -->
+                </div>
+                <div class="cart-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping:</span>
+                        <span>Free</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="total">$0.00</span>
+                    </div>
+                    <button class="btn btn-primary btn-large" onclick="showCheckoutForm()">Proceed to Checkout</button>
+                    <a href="/products" class="continue-shopping">Continue Shopping</a>
+                </div>
+            </div>
+
+            <!-- Checkout Form -->
+            <div id="checkoutForm" class="checkout-form" style="display: none;">
+                <h2>Checkout Information</h2>
+                <form onsubmit="submitOrder(event)">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone *</label>
+                        <input type="tel" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Shipping Address *</label>
+                        <textarea name="address" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-large">Place Order</button>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    loadCart();
+
+    function loadCart() {
+        fetch('/api/cart')
+            .then(response => response.json())
+            .then(data => {
+                const cartItems = document.getElementById('cartItems');
+                
+                if (data.items.length === 0) {
+                    cartItems.innerHTML = '<div class="empty-cart"><p>Your cart is empty</p><a href="/products" class="btn btn-primary">Start Shopping</a></div>';
+                    document.querySelector('.cart-summary').style.display = 'none';
+                    return;
+                }
+
+                cartItems.innerHTML = '';
+                data.items.forEach(item => {
+                    const itemHTML = `
+                        <div class="cart-item">
+                            <img src="${item.image_url}" alt="${item.name}">
+                            <div class="cart-item-details">
+                                <h3>${item.name}</h3>
+                                <p class="cart-item-price">$${item.price.toFixed(2)}</p>
+                                <p class="cart-item-quantity">Quantity: ${item.quantity}</p>
+                            </div>
+                            <div class="cart-item-actions">
+                                <p class="cart-item-subtotal">$${item.subtotal.toFixed(2)}</p>
+                                <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+                            </div>
+                        </div>
+                    `;
+                    cartItems.innerHTML += itemHTML;
+                });
+
+                document.getElementById('subtotal').textContent = `$${data.total.toFixed(2)}`;
+                document.getElementById('total').textContent = `$${data.total.toFixed(2)}`;
+            });
+    }
+
+    function removeFromCart(productId) {
+        fetch(`/api/cart/remove/${productId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(() => {
+            loadCart();
+            updateCartCount();
+        });
+    }
+
+    function showCheckoutForm() {
+        document.getElementById('checkoutForm').style.display = 'block';
+        document.getElementById('checkoutForm').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function submitOrder(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const orderData = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            address: formData.get('address')
+        };
+
+        fetch('/api/order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(`Order placed successfully! Order ID: ${data.order_id}\n\nThank you for your purchase!`);
+                window.location.href = '/';
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            alert('Error placing order. Please try again.');
+        });
+    }
+</script>
+{% endblock %}

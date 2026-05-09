@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found - Nara Optics{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-content">
+        <h1>404</h1>
+        <h2>Page Not Found</h2>
+        <p>The page you're looking for doesn't exist.</p>
+        <a href="/" class="btn btn-primary">Back to Home</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .error-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+    }
+    .error-content h1 {
+        font-size: 120px;
+        color: var(--secondary-color);
+        margin-bottom: 20px;
+    }
+    .error-content h2 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    .error-content p {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 40px;
+    }
+</style>
+{% endblock %}

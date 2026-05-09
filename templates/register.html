@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Nara Optics{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-form-wrapper">
+            <h1>Create Account</h1>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" name="password" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password *</label>
+                    <input type="password" name="confirm_password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-large">Register</button>
+                <p class="auth-switch">Already have an account? <a href="/login">Login here</a></p>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 150px 0 80px;
+        background: var(--light-bg);
+    }
+    .auth-form-wrapper {
+        max-width: 500px;
+        margin: 0 auto;
+        background: white;
+        padding: 50px;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    .auth-form-wrapper h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 2.5rem;
+    }
+    .auth-switch {
+        text-align: center;
+        margin-top: 20px;
+        color: #666;
+    }
+    .auth-switch a {
+        color: var(--secondary-color);
+        text-decoration: none;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function handleRegister(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        
+        if (formData.get('password') !== formData.get('confirm_password')) {
+            alert('Passwords do not match!');
+            return;
+        }
+
+        fetch('/api/register', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                name: formData.get('name'),
+                email: formData.get('email'),
+                password: formData.get('password')
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Registration successful! Please login.');
+                window.location.href = '/login';
+            } else {
+                alert('Error: ' + data.message);
+            }
+        });
+    }
+</script>
+{% endblock %}

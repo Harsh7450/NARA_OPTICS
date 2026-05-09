@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}My Account - Nara Optics{% endblock %}
+
+{% block content %}
+<section class="account-section">
+    <div class="container">
+        <h1>My Account</h1>
+        <div class="account-grid">
+            <div class="account-sidebar">
+                <div class="user-info">
+                    <h2>{{ session.user_name }}</h2>
+                    <p>{{ session.user_email }}</p>
+                </div>
+                <nav class="account-nav">
+                    <a href="#orders" class="active">My Orders</a>
+                    <a href="#profile">Profile Settings</a>
+                    <a href="/logout" class="logout-btn">Logout</a>
+                </nav>
+            </div>
+            <div class="account-content">
+                <h2>Order History</h2>
+                {% if orders %}
+                    <div class="orders-list">
+                        {% for order in orders %}
+                        <div class="order-card">
+                            <div class="order-header">
+                                <h3>Order #{{ order[0] }}</h3>
+                                <span class="order-status status-{{ order[7] }}">{{ order[7].upper() }}</span>
+                            </div>
+                            <div class="order-details">
+                                <p><strong>Date:</strong> {{ order[8] }}</p>
+                                <p><strong>Total:</strong> ${{ "%.2f"|format(order[6]) }}</p>
+                                <p><strong>Shipping Address:</strong> {{ order[5] }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="no-orders">
+                        <p>You haven't placed any orders yet.</p>
+                        <a href="/products" class="btn btn-primary">Start Shopping</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .account-section {
+        padding: 150px 0 80px;
+        min-height: 100vh;
+    }
+    .account-section h1 {
+        font-size: 3rem;
+        margin-bottom: 50px;
+    }
+    .account-grid {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 50px;
+    }
+    .account-sidebar {
+        background: var(--light-bg);
+        padding: 30px;
+        border-radius: 10px;
+        height: fit-content;
+    }
+    .user-info {
+        margin-bottom: 30px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid #ddd;
+    }
+    .user-info h2 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    .user-info p {
+        color: #666;
+    }
+    .account-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .account-nav a {
+        padding: 15px;
+        text-decoration: none;
+        color: var(--text-color);
+        border-radius: 5px;
+        transition: var(--transition);
+    }
+    .account-nav a:hover,
+    .account-nav a.active {
+        background: white;
+        color: var(--secondary-color);
+    }
+    .logout-btn {
+        color: #e74c3c !important;
+    }
+    .account-content h2 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
+    .order-card {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .order-status {
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+    .status-completed {
+        background: #d4edda;
+        color: #155724;
+    }
+    .order-details p {
+        margin-bottom: 10px;
+        color: #666;
+    }
+    .no-orders {
+        text-align: center;
+        padding: 80px 20px;
+    }
+    .no-orders p {
+        font-size: 1.3rem;
+        color: #666;
+        margin-bottom: 30px;
+    }
+    @media (max-width: 768px) {
+        .account-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
